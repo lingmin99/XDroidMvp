@@ -24,7 +24,8 @@
             android:layout_height="25dp"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="5dp"
-            android:padding="3dp" />
+            android:padding="3dp"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/tv_type"
@@ -85,9 +86,9 @@
             android:id="@+id/iv_vedio"
             android:layout_width="100dp"
             android:layout_height="75dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:background="@mipmap/video_icon"
             android:visibility="gone"
             tools:visibility="visible" />

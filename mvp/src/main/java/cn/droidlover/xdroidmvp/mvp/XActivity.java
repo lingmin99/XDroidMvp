@@ -37,7 +37,7 @@ public abstract class XActivity<P extends IPresent> extends RxAppCompatActivity 
         getP();
 
         if (getLayoutId() > 0) {
-            setContentView(getLayoutId());
+            setContentView(getLayoutId());//加载view
             bindUI(null);
             bindEvent();
         }

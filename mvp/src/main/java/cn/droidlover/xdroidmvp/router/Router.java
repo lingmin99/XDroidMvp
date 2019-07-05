@@ -15,6 +15,7 @@ import cn.droidlover.xdroidmvp.XDroidConf;
 
 /**
  * Created by wanglei on 2016/11/29.
+ * Router路由功能，即页面间跳转中转器
  */
 public class Router {
 
@@ -174,10 +175,12 @@ public class Router {
                     if (requestCode < 0) {
                         from.startActivity(intent);
                     } else {
-                        from.startActivityForResult(intent, requestCode);
+                        //如果requestCode > = 0,当Activity结束时requestCode将归还在onActivityResult()中。以便确定返回的数据是从哪个Activity中返回，用来标识目标activity
+                        from.startActivityForResult(intent, requestCode);//startActivityForResult带返回数据意图，即A to B,返回A时会从b带数据给A
                     }
-
+                    //enterAnim将要显示界面的动画，exitAnim退出界面的动画
                     if (enterAnim > 0 && exitAnim > 0) {
+                        //overridePendingTransition不同Activity之间的切换效果行数
                         from.overridePendingTransition(enterAnim, exitAnim);
                     }
                 } else {

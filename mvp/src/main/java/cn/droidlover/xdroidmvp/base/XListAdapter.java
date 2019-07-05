@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Created by wanglei on 2016/12/1.
+ * 适合多个itemType情况
  */
 
 public abstract class XListAdapter<T> extends BaseAdapter {

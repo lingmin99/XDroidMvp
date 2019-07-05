@@ -18,10 +18,11 @@ import cn.droidlover.xrecyclerview.XRecyclerView;
  * Created by wanglei on 2016/12/31.
  */
 
+//extends是继承父类，只要那个类不是声明为final或者那个类定义为abstract的就能继承
 public abstract class BasePagerFragment extends XLazyFragment<PBasePager> {
 
     @BindView(R.id.contentLayout)
-    XRecyclerContentLayout contentLayout;
+    XRecyclerContentLayout contentLayout;//可用于自定义Loading、Error、Empty、Content
 
     StateView errorView;
 
@@ -31,9 +32,13 @@ public abstract class BasePagerFragment extends XLazyFragment<PBasePager> {
     @Override
     public void initData(Bundle savedInstanceState) {
         initAdapter();
-        getP().loadData(getType(), 1);
+        getP().loadData(getType(), 1);//获取数据
     }
 
+    /*
+    XRecyclerView第三方库实现了下拉刷新，滚动到底部加载更多以及添加header功能的的RecyclerView。使用方式和RecyclerView完全一致，
+    不需要额外的layout，不需要写特殊的adater。 加载效果内置了AVLoadingIndicatorView上的所有效果，可以根据需要指定。
+     */
     private void initAdapter() {
         setLayoutManager(contentLayout.getRecyclerView());
         contentLayout.getRecyclerView()
@@ -42,12 +47,14 @@ public abstract class BasePagerFragment extends XLazyFragment<PBasePager> {
                 .setOnRefreshAndLoadMoreListener(new XRecyclerView.OnRefreshAndLoadMoreListener() {
                     @Override
                     public void onRefresh() {
+                        contentLayout.showLoading();
                         getP().loadData(getType(), 1);
-                    }
+                    }//下拉刷新
 
                     @Override
                     public void onLoadMore(int page) {
-                        getP().loadData(getType(), page);
+                        contentLayout.showLoading();
+                        getP().loadData(getType(), page);//上拉加载更多
                     }
                 });
 
@@ -56,9 +63,10 @@ public abstract class BasePagerFragment extends XLazyFragment<PBasePager> {
             errorView = new StateView(context);
         }
         contentLayout.errorView(errorView);
-        contentLayout.loadingView(View.inflate(getContext(), R.layout.view_loading, null));
+        contentLayout.loadingView(View.inflate(getContext(), R.layout.view_loading, null));//加载效果页面
+        contentLayout.getRecyclerView().useDefLoadMoreView();//使用加载更多默认效果
+        contentLayout.showLoading();
 
-        contentLayout.getRecyclerView().useDefLoadMoreView();
     }
 
     public abstract SimpleRecAdapter getAdapter();
@@ -99,6 +107,7 @@ public abstract class BasePagerFragment extends XLazyFragment<PBasePager> {
         }
     }
 
+    //显示返回的数据
     public void showData(int page, GankResults model) {
         if (page > 1) {
             getAdapter().addData(model.getResults());
@@ -106,6 +115,7 @@ public abstract class BasePagerFragment extends XLazyFragment<PBasePager> {
             getAdapter().setData(model.getResults());
         }
 
+        //更新当前页码
         contentLayout.getRecyclerView().setPage(page, MAX_PAGE);
 
         if (getAdapter().getItemCount() < 1) {

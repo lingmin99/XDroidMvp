@@ -86,17 +86,17 @@ public class WebActivity extends XActivity {
                         url = webView.getUrl();
                 } else {
                     if (contentLayout != null)
-                        contentLayout.showLoading();
+                        contentLayout.showLoading();//显示加载页面
                 }
             }
         });
         webView.setWebViewClient(new WebViewClient());
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setDatabaseEnabled(true);
-        webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);//是否能伸缩
+        webView.getSettings().setJavaScriptEnabled(true);//
+        webView.getSettings().setDomStorageEnabled(true);//开启DOM storage API 功能
+        webView.getSettings().setDatabaseEnabled(true);//开启database storage API功能
+        webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//设置缓存模式
+        webView.getSettings().setAppCacheEnabled(true);//数据缓存
 
         webView.loadUrl(url);
     }
@@ -109,21 +109,22 @@ public class WebActivity extends XActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {//菜单栏目事件
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case android.R.id.home://返回
                 finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                 break;
-            case R.id.action_share:
+            case R.id.action_share://分享
                 AppKit.shareText(this, webView.getTitle() + " " + webView.getUrl() + " 来自「XDroid」");
                 break;
-            case R.id.action_refresh:
+            case R.id.action_refresh://刷新
                 webView.reload();
                 break;
-            case R.id.action_copy:
+            case R.id.action_copy://复制链接
                 AppKit.copyToClipBoard(this, webView.getUrl());
                 break;
-            case R.id.action_open_in_browser:
+            case R.id.action_open_in_browser://在浏览器打开
                 AppKit.openInBrowser(this, webView.getUrl());
                 break;
         }
@@ -171,9 +172,10 @@ public class WebActivity extends XActivity {
     }
 
     public static void launch(Activity activity, String url, String desc) {
-        Router.newIntent(activity)
+        //Intent是一种运行时绑定（runtime binding)机制，它能在程序运行的过程中连接两个不同的组件。
+        Router.newIntent(activity).anim(R.anim.slide_in_right,R.anim.slide_out_left)//动画效果子视图从右->左划进来,父视图向左边出，左出 右进
                 .to(WebActivity.class)
-                .putString(PARAM_URL, url)
+                .putString(PARAM_URL, url)//传递的参数值
                 .putString(PARAM_DESC, desc)
                 .launch();
     }

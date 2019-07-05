@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -15,6 +16,7 @@ import cn.droidlover.xdroidmvp.demo.R;
 import cn.droidlover.xdroidmvp.demo.model.GankResults;
 import cn.droidlover.xdroidmvp.imageloader.ILFactory;
 import cn.droidlover.xdroidmvp.kit.KnifeKit;
+import cn.droidlover.xdroidmvp.log.XLog;
 
 /**
  * Created by wanglei on 2016/12/10.
@@ -30,6 +32,7 @@ public class HomeAdapter extends SimpleRecAdapter<GankResults.Item, HomeAdapter.
 
     @Override
     public ViewHolder newViewHolder(View itemView) {
+        XLog.d("newViewHolder");
         return new ViewHolder(itemView);
     }
 
@@ -40,6 +43,7 @@ public class HomeAdapter extends SimpleRecAdapter<GankResults.Item, HomeAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        XLog.d("onBindViewHolder");
         final GankResults.Item item = data.get(position);
 
         String type = item.getType();
@@ -128,6 +132,7 @@ public class HomeAdapter extends SimpleRecAdapter<GankResults.Item, HomeAdapter.
 
     }
 
+    //绑定layout界面并绑定控件，定义相应的属性,类似iOS定义tableViewCell类
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.iv_type)
@@ -151,7 +156,7 @@ public class HomeAdapter extends SimpleRecAdapter<GankResults.Item, HomeAdapter.
 
         public ViewHolder(View itemView) {
             super(itemView);
-            KnifeKit.bind(this, itemView);
+            KnifeKit.bind(this, itemView);//生成HomeAdapter$ViewHolder_ViewBinding文件
         }
     }
 }

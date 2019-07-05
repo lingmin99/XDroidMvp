@@ -5,9 +5,9 @@ package cn.droidlover.xdroidmvp.mvp;
  */
 
 public interface IPresent<V> {
-    void attachV(V view);
+    void attachV(V view);//附上View
 
-    void detachV();
+    void detachV();//分离view
 
-    boolean hasV();
+    boolean hasV();//是否有view
 }

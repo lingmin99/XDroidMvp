@@ -11,6 +11,7 @@ import retrofit2.http.Path;
 
 public interface GankService {
 
+    //Flowable是一个使用Java编写的轻量级业务流程引擎
     @GET("data/{type}/{number}/{page}")
     Flowable<GankResults> getGankData(@Path("type") String type,
                                       @Path("number") int pageSize,
